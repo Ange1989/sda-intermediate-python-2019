@@ -1,21 +1,18 @@
 from dataclasses import dataclass, field
-
 from datetime import datetime, timedelta
+
+from src.to_do.base_list import BaseTask
 
 
 def default_deadline() -> datetime:
     return datetime.now() + timedelta(days=2)
 
 
+# @dataclass(frozen=True)
 @dataclass
-class PrioritizedTask:
-    name: str
-    description: str
+class PrioritizedTask(BaseTask):
     priority: int = field(default=0)
     deadline: datetime = field(default_factory=default_deadline)
-
-    def __repr__(self):
-        return f'{self.name}: {self.description}'
 
     def __lt__(self, other: 'PrioritizedTask') -> bool:
         if self.priority == other.priority:
@@ -23,8 +20,8 @@ class PrioritizedTask:
         return self.priority > other.priority
 
 
-task_01 = PrioritizedTask('cleaning', 'cleaning bathroom', 0, datetime(2019, 5, 1))
-task_02 = PrioritizedTask('dishes', 'cleaning the dishes', 4, datetime(2019, 6, 1))
-task_03 = PrioritizedTask('shopping', 'buy some food', 3, datetime(2019, 4, 1))
-task_04 = PrioritizedTask('homework', 'do the homework', 2)
-task_05 = PrioritizedTask('call', 'call my friend', 0)
+task_01 = PrioritizedTask('Sprzatanie', 'Posprzataj pokoj', 0, datetime(2019, 5, 1))
+task_02 = PrioritizedTask('Spacer', 'Zabierz psa', 4, datetime(2019, 6, 1))
+task_03 = PrioritizedTask('Smieci', 'wynies smieci', 4, datetime(2019, 4, 1))
+task_04 = PrioritizedTask('Samochod', 'Zatankuj', 2)
+task_05 = PrioritizedTask('Zakupy', 'Cos na obiad', 0)
