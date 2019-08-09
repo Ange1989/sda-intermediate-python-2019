@@ -1,18 +1,18 @@
-import typing
-from dataclasses import dataclass, field
+import abc
+from dataclasses import dataclass
 
 from src.to_do.deque import fifo_task
 
 
+@dataclass
 class Fifo:
-    tasks: typing.List[fifo_task] = field(default_factory=list)
 
+    @abc.abstractmethod
     def add_task(self, task) -> None:
         self.tasks.append(task)
 
+    @abc.abstractmethod
     def get_task(self) -> fifo_task:
-        if len(self.tasks) == 0:
+        if len(self.task) == 0:
             return None
-        return self.tasks.pop(0)
-
-
+        return self.task.popleft()
