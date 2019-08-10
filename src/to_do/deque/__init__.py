@@ -1,18 +1,19 @@
-import abc
-from dataclasses import dataclass
+import typing
+from collections import deque
+from dataclasses import dataclass, field
 
-from src.to_do.deque import fifo_task
+from src.to_do.base_list import BaseListTask
+from src.to_do.deque.fifo_task import FifoTask
 
 
 @dataclass
-class Fifo:
+class Fifo(BaseListTask):
+    tasks: typing.Deque[FifoTask] = field(default_factory=deque)
 
-    @abc.abstractmethod
-    def add_task(self, task) -> None:
+    def add_task(self, task: FifoTask) -> None:
         self.tasks.append(task)
 
-    @abc.abstractmethod
-    def get_task(self) -> fifo_task:
-        if len(self.task) == 0:
+    def get_task(self) -> typing.Optional[FifoTask]:
+        if len(self.tasks) == 0:
             return None
-        return self.task.popleft()
+        return self.tasks.popleft()
